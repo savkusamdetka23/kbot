@@ -32,4 +32,4 @@ After initialization you can start typing or forwarding posts and messages in En
 ### Translate to English
 Also you can post or forward messages in Ukrainian to receive tranlation in English.
 
-![Alt text](img/image-2.png)
+![Alt text](img/image-23.png)
