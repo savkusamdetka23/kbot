@@ -61,17 +61,10 @@ to quickly create a Cobra application.`,
 				switch strings.ToLower(m.Text()) {
 				case "/start":
 					// Send a welcome message and provide the current Kyiv time
-					welcomeMessage := "СЛАВА УКРАЇНІ! I'm @savkusamdetka23_bot. Welcome! 😊 You can text me anything, and I will try to translate it to Ukrainian and provide transcription."
-					currentTime := time.Now().In(time.FixedZone("Europe/Kiev", 2*60*60))
-					timeMessage := fmt.Sprintf("The current time in Kyiv is: %s", currentTime.Format("15:04:05"))
+					welcomeMessage := "СЛАВА УКРАЇНІ! I'm @savkusamdetka23_bot. Welcome! 😊 You can text me anything or forward other telegram messages and posts, and I will translate your message to Ukrainian and provide transcription or translate if from Ukrainian to English."
 					err := m.Send(welcomeMessage)
 					if err != nil {
 						log.Printf("Error sending welcome message: %v", err)
-						return err
-					}
-					err = m.Send(timeMessage)
-					if err != nil {
-						log.Printf("Error sending time message: %v", err)
 						return err
 					}
 
