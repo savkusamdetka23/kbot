@@ -6,16 +6,16 @@ Hi! This repo is for telegram bot which can translate your messages or forwarded
 # Tech stack
 
  - Code: Goland
- - Golang framework for telegram bots-  [**telebot.v3**](gopkg.in/telebot.v3)
- - Framework for CLI interfaces: [**cobra**](github.com/spf13/cobra)
- - Other packages: 
- [**gtranslate**](github.com/bregydoc/gtranslate)
-[**transliteration-go**](github.com/fre5h/transliteration-go)
-[**language**](golang.org/x/text/language)
+ - Golang framework for telegram bots-  [**telebot.v3**](https://gopkg.in/telebot.v3)
+ - Framework for CLI interfaces: [**cobra**](https://github.com/spf13/cobra)
+ - Other packages:
+[**gtranslate**](https://github.com/bregydoc/gtranslate),
+[**transliteration-go**](https://github.com/fre5h/transliteration-go),
+[**language**](https://golang.org/x/text/language).
 
 ## Start using
 
-To start using this bot you need to send messages to [**savkusamdetka23_bot**](t.me/savkusamdetka23_bot).
+To start using this bot you need to send messages to [**savkusamdetka23_bot**](https://t.me/savkusamdetka23_bot).
 
 ### Initialization
 Just press start or type `/start`.
