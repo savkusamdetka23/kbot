@@ -4,5 +4,14 @@ TARGETOS=linux
 format:
 	gofmt -s -w ./
 
+lint:
+	golint
+
+test:
+	go test -v
+
 build: format
 	CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${shell dpkg --print-architecture} go build -v -o kbot -ldflags "-X="github.com/savkusamdetka23/kbot/cmd.appVersion=${VERSION}
+
+clean:
+	rm -rf kbot

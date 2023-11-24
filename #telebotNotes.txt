@@ -39,3 +39,8 @@ go get github.com/xrash/smetrics
 
 
 #Makefile and Docker file
+sudo snap install go  
+sudo apt install golang-go
+make format
+make build
+sudo apt install golint
