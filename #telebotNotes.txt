@@ -1,0 +1,38 @@
+#telebot task
+
+ go mod init github.com/savkusamdetka23/kbot
+ # CLI framework: https://github.com/spf13/cobra
+ go install github.com/spf13/cobra-cli@latest
+ cobra-cli init
+ cobra-cli add version
+ go run main.go help
+ go run main.go version
+ cobra-cli add kbot
+ go build -l dflags "-X="github.com/savkusamdetka23/kbot/cmd.appVersion=1.0.0
+ ./kbot version
+
+# Golang framework for telegram bots: https://github.com/tucnak/telebot
+
+#align tabulation
+ gofmt -s -w ./
+  go build -ldflags "-X="github.com/savkusamdetka23/kbot/cmd.appVersion=1.0.1
+ ./kbot start
+
+# @BotFather - official bot manager
+
+read -s TELE_TOKEN
+echo $TELE_TOKEN
+export TELE_TOKEN
+./kbot start
+
+go get -u google.golang.org/api/translate/v2
+
+read -s GOOGLE_API_KEY
+echo $GOOGLE_API_KEY
+export GOOGLE_API_KEY
+go get -u google.golang.org/api/translate/v2
+https://cloud.google.com/translate/docs/setup
+
+go get -u github.com/bregydoc/gtranslate
+go get "github.com/fre5h/transliteration-go"
+        go get github.com/xrash/smetrics
