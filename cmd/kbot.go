@@ -54,7 +54,7 @@ to quickly create a Cobra application.`,
 				// Check for a specific command
 				switch strings.ToLower(m.Text()) {
 				case "/start":
-					// Send a welcome message and provide the current Kyiv time
+					// Send a welcome message
 					welcomeMessage := "СЛАВА УКРАЇНІ! I'm @savkusamdetka23_bot. Welcome! 😊 You can text me anything or forward other Telegram messages and posts, and I will translate your message to Ukrainian and provide transcription or translate it from Ukrainian to English."
 					err := m.Send(welcomeMessage)
 					if err != nil {
