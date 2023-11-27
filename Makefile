@@ -1,6 +1,6 @@
 #.DEFAULT_GOAL := linux
 
-APP=$(shell basename ${shell git remote get-url origin})
+APP=$(shell basename -s .git ${shell git remote get-url origin})
 REGISTRY=gcr.io
 PROJECT=translatebot-405321
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
