@@ -8,6 +8,7 @@ VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HE
 # Define the supported platforms
 PLATFORMS = linux windows arm macos
 TARGETARCH ?= amd64
+TARGETOS ?= linux
 linux: TARGETOS=linux TARGETARCH=amd64
 windows: TARGETOS=windows TARGETARCH=amd64
 arm: TARGETOS=linux TARGETARCH=arm64 
@@ -45,4 +46,4 @@ clean:
 $(PLATFORMS): %: build
 
 # Make the tasks phony
-.PHONY: $(PLATFORMS) build
+.PHONY: $(PLATFORMS) build format lint test get image push clean
