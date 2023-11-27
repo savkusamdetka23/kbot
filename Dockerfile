@@ -1,8 +1,8 @@
-FROM golang:1.17 AS builder
+FROM quay.io/projectquay/golang:1.20 AS builder
 
 WORKDIR /go/src/app
 COPY . .
-RUN make linux
+RUN make build
 
 FROM scratch
 WORKDIR /

@@ -1,6 +1,6 @@
 module github.com/savkusamdetka23/kbot
 
-go 1.23
+go 1.17
 
 require (
 	github.com/bregydoc/gtranslate v0.0.0-20200913051839-1bd07f6c1fc5

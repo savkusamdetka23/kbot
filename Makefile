@@ -7,17 +7,13 @@ VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HE
 
 # Define the supported platforms
 PLATFORMS = linux windows arm macos
-TAG=${REGISTRY}/${PROJECT}:${VERSION}-${TARGETARC}
-# Define the task names
-TARGETOS=linux 
-TARGETARC=amd64 
-linux: TARGETOS=linux TARGETARC=amd64 
-windows: TARGETOS=windows TARGETARC=amd64
-arm: TARGETOS=linux TARGETARC=arm64
-macos: TARGETOS=darwin TARGETARC=amd64
+TARGETARCH ?= amd64
+linux: TARGETOS=linux TARGETARCH=amd64
+windows: TARGETOS=windows TARGETARCH=amd64
+arm: TARGETOS=linux TARGETARCH=arm64 
+macos: TARGETOS=darwin TARGETARCH=amd64
 
-# Export TARGETARC for subsequent targets
-export TARGETARC
+TAG=${REGISTRY}/${PROJECT}/${APP}:${VERSION}-${TARGETARCH}
 
 format:
 	gofmt -s -w ./
@@ -32,8 +28,7 @@ get:
 	go get
 
 build: format get
-	CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARC} go build -v -o kbot -ldflags "-X="github.com/savkusamdetka23/kbot/cmd.appVersion=${VERSION}
-export TARGETARC
+	CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -v -o kbot -ldflags "-X="github.com/savkusamdetka23/kbot/cmd.appVersion=${VERSION}
 
 image: 
 	docker build . -t ${TAG}
