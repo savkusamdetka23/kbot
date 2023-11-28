@@ -44,3 +44,8 @@ sudo apt install golang-go
 make format
 make build
 sudo apt install golint
+
+git describe --tags
+git tag -a <tag_name> -m "Tagging version <tag_name>"
+git push origin
+git push --tags
