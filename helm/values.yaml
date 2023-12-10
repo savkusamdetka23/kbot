@@ -4,10 +4,12 @@
 
 replicaCount: 1
 image:
+  registry: "ghcr.io"
   repository: "maxeem23/kbot"
   # Overrides the image tag whose default is the chart appVersion.
   tag: "1.1.3-6b8772e"
-  arch: amd64
+  os: "linux"
+  arch: "amd64"
 secret:
   name: "kbot"
   env: "TELE_TOKEN"
