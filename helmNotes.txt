@@ -2,4 +2,4 @@ helm create helm
 helm lint ./helm
 helm template kbot ./helm
 
-kubectl create secret generic my-secret --from-literal=username=myuser --from-literal=password=mypassword
+kubectl create secret generic kbot --from-literal=token='1234'
