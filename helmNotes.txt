@@ -1,5 +1,23 @@
 helm create helm
 helm lint ./helm
 helm template kbot ./helm
-
+helm upgrade -n argocd my-argocd argo/argo-cd --version=5.51.6
 kubectl create secret generic kbot --from-literal=token='1234'
+
+kubectl logs -n demo my-argocd-application-controller-0
+kubectl logs -n default my-argocd-application-controller-0
+kubectl logs -n default my-argocd-application-controller-0 | grep -i error
+kubectl logs -n default my-argocd-application-controller-0 | grep -i -E 'error|warning|failed|exception'
+kubectl logs -n default my-argocd-application-controller-0 | grep -i -E 'error|warning|failed|exception' 
+kubectl logs -n default my-argocd-server-75b5b854f8-rb242 
+ 
+kubectl create secret generic new- --namespace=default --from-literal=license=MTIzNDU=
+kubectl create secret generic kbot --namespace=default --from-literal=token="6762316228:"
+kubectl scale deployments --all --replicas=0 -n default
+kubectl get pods -n default
+kubectl delete pods --all --grace-period=0 --force -n default
+.Values.secret.name
+kubectl get secret kbot -n default -o jsonpath='{.data.secret\.value}' | base64 --decode
+
+kubectl rollout restart deployment argocd-server -n default
+helm install release-name chart-directory --set secrets.TELE_TOKEN=your-tele-token-value
