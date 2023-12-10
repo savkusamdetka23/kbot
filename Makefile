@@ -16,7 +16,7 @@ arm: TARGETOS=linux TARGETARCH=arm64
 macos: TARGETOS=darwin TARGETARCH=amd64
 
 TAG=${REGISTRY}/${PROJECT}/${APP}:${VERSION}-${TARGETARCH}
-TAGD_DOCKERHUB=${REGISTRY_DOCKERHUB}/${PROJECT}/${APP}:${VERSION}-${TARGETARCH}
+TAG_DOCKERHUB=${REGISTRY_DOCKERHUB}/${APP}:${VERSION}-${TARGETARCH}
 
 format:
 	gofmt -s -w ./
@@ -35,11 +35,11 @@ build: format get
 
 image: 
 #	docker build . -t ${TAG}
-	docker build . -t ${TAGD_DOCKERHUB}
+	docker build . -t ${TAG_DOCKERHUB}
 
 push:
 #	docker push ${TAG}
-	docker push ${TAGD_DOCKERHUB}
+	docker push ${TAG_DOCKERHUB}
 
 clean:
 	rm -rf kbot
