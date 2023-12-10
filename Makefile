@@ -2,6 +2,7 @@
 
 APP=$(shell basename -s .git ${shell git remote get-url origin})
 REGISTRY=gcr.io
+REGISTRY_DOCKERHUB=maxeem23
 PROJECT=translatebot-405321
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
 
@@ -15,6 +16,7 @@ arm: TARGETOS=linux TARGETARCH=arm64
 macos: TARGETOS=darwin TARGETARCH=amd64
 
 TAG=${REGISTRY}/${PROJECT}/${APP}:${VERSION}-${TARGETARCH}
+TAGD_DOCKERHUB=${REGISTRY_DOCKERHUB}/${PROJECT}/${APP}:${VERSION}-${TARGETARCH}
 
 format:
 	gofmt -s -w ./
@@ -32,10 +34,12 @@ build: format get
 	CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -v -o kbot -ldflags "-X="github.com/savkusamdetka23/kbot/cmd.appVersion=${VERSION}
 
 image: 
-	docker build . -t ${TAG}
+#	docker build . -t ${TAG}
+	docker build . -t ${TAGD_DOCKERHUB}
 
 push:
-	docker push ${TAG}
+#	docker push ${TAG}
+	docker push ${TAGD_DOCKERHUB}
 
 clean:
 	rm -rf kbot
