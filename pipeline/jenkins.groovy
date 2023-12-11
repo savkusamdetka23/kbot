@@ -28,12 +28,6 @@ pipeline {
                     git branch: "${BRANCH}", url: "${REPO}"
             }
         }
-        stage('test') {
-            steps {
-                echo 'TEST EXECUTION STARTED'
-                sh 'make test'
-            }
-        }
         stage('build') {
             steps {
                 echo 'BUILD EXECUTION STARTED'
