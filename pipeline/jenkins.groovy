@@ -3,6 +3,8 @@ pipeline {
         environment {
             REPO = 'https://github.com/savkusamdetka23/kbot.git'
             BRANCH = 'main'
+            GHCR_REPOSITORY = 'savkusamdetka23/kbot'
+
         }
     parameters {
 
@@ -31,7 +33,7 @@ pipeline {
         stage('build') {
             steps {
                 echo 'BUILD EXECUTION STARTED'
-                sh 'make build TARGETOS=${params.OS} TARGETARCH=${params.ARCH}'
+                sh 'make build TARGETOS=${OS} TARGETARCH=${ARCH}'
             }
         }
         stage('image') {
@@ -43,9 +45,14 @@ pipeline {
         stage('push') {
             steps {
                 script {
-                    docker.withRegistry( '', 'ghcr') {
-                        sh 'make push'
+                    
+                    // Authenticate with GitHub Container Registry
+                    withCredentials([string(credentialsId: 'ghcr-token', variable: 'GHCR_TOKEN')]) {
+                        sh "echo $GHCR_TOKEN | docker login ghcr.io -u ${params.ContainerRegistry} --password-stdin"
                     }
+
+                    // Tag and push the Docker image to GHCR
+                    sh "make push"
                 }
             }
         }
