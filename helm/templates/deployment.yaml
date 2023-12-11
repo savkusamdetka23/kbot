@@ -44,5 +44,5 @@ spec:
           - mountPath: /dev/mem
             name: dev-mem
           env:
-          - name: {{ .Values.secret.name }}
+          - name: {{ .Values.secret.env }}
             value: {{ .Values.secret.value }}
