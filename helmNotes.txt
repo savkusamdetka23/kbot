@@ -21,3 +21,7 @@ kubectl get secret kbot -n default -o jsonpath='{.data.secret\.value}' | base64 
 
 kubectl rollout restart deployment argocd-server -n default
 helm install release-name chart-directory --set secrets.TELE_TOKEN=your-tele-token-value
+
+kubectl  config set-context --current --namespace=default
+kubectl delete secret kbot 
+kubectl create secret generic kbot --namespace=default --from-literal=TELE_TOKEN="6762316228:AAGiiWtqo8RNSv6CA2hRfX1eby6016XiXbc"
