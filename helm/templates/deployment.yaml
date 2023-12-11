@@ -45,4 +45,4 @@ spec:
             valueFrom:
               secretKeyRef:
                 key: {{ .Values.secret.key }}
-                value: {{ .Values.secret.value }}
+                value: {{ .Values.secret.name }}

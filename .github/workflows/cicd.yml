@@ -16,8 +16,7 @@ jobs:
       - name: Run test
         run: make test
       - name: Docker Hub login
-#       uses: docker/login-action@v3
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
 #          username: ${{ secrets.DOCKERHUB_USERNAME }}
 #          password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -42,8 +41,7 @@ jobs:
 
     - uses: mikefarah/yq@master
       with: 
-        cmd: yq -i '.image.tag=strenv(VERSION)' helm/values.yaml
-        #cmd: yq -i '.image.tag=strenv(VERSION) | .image.os=strenv(TARGETOS) | .image.arch=strenv(TARGETARCH)' helm/values.yaml
+        cmd: yq -i '.image.tag=strenv(VERSION) | .image.os=strenv(TARGETOS) | .image.arch=strenv(TARGETARCH)' helm/values.yaml
 
 
     - run: |
