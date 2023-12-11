@@ -4,6 +4,8 @@ pipeline {
             REPO = 'https://github.com/savkusamdetka23/kbot.git'
             BRANCH = 'main'
             GHCR_REPOSITORY = 'savkusamdetka23/kbot'
+            GIT_REPO_URL = 'git@github.com:yourusername/yourrepository.git'
+            GIT_CREDENTIALS_ID = 'GIT_CREDENTIALS_ID'
 
         }
     parameters {
@@ -24,10 +26,15 @@ pipeline {
 
             }
         }
-        stage('clone') {
+        stage('Checkout') {
             steps {
-                echo 'CLONE REPOSITORY'
-                    git branch: "${BRANCH}", url: "${REPO}"
+                script {
+                    // Authenticate with Git using SSH key
+                    sshagent(credentials: [GIT_CREDENTIALS_ID]) {
+                        // Checkout the code
+                        checkout([$class: 'GitSCM', branches: [[name: '*/main']], userRemoteConfigs: [[url: GIT_REPO_URL]]])
+                    }
+                }
             }
         }
         stage('build') {
