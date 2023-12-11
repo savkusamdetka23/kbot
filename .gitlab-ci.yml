@@ -1,0 +1,29 @@
+variables:
+  BRANCH: 'main'
+  OS: 'linux'
+  ARCH: 'amd64'
+  GITLAB_REPOSITORY: 'registry.gitlab.com'
+  IMAGE_NAME: 'savkusamdetka232/kbot'
+
+stages:
+  - build
+  - images
+  - push
+
+build:
+  stage: build
+  script:
+    - echo 'BUILD EXECUTION STARTED'
+    - make build TARGETOS="$OS" TARGETARCH="$ARCH"
+
+images:
+  stage: images
+  script:
+    - make image
+
+push:
+  stage: push
+  script:
+    - echo 'PUSH EXECUTION STARTED'
+    - echo "$CI_JOB_TOKEN" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$GITLAB_REPOSITORY"
+    - make push
