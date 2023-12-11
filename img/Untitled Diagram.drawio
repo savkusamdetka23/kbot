@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-12-11T16:02:08.405Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36" etag="U_rXvARV-fIyQJwZe7AY" version="22.1.7" type="github">
+<mxfile host="app.diagrams.net" modified="2023-12-11T18:01:29.728Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36" etag="-_Yfw09ueQ7pYMdeaheJ" version="22.1.7" type="github">
   <diagram name="Page-1" id="t8wCQ7tXZv-2bxK0fcjP">
     <mxGraphModel dx="1562" dy="830" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -44,7 +44,7 @@
             <mxPoint y="19" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="9Z9TL7PvHt9BOacIorQI-9" value="CI job:&lt;br&gt;&lt;ul&gt;&lt;li&gt;Checkout develop branch&lt;/li&gt;&lt;li&gt;Perform &quot;make test&quot;&lt;/li&gt;&lt;li&gt;Build application&lt;/li&gt;&lt;li&gt;Build and Push image to ghcr.io&lt;/li&gt;&lt;/ul&gt;&lt;br&gt;CD job:&lt;br&gt;&lt;ul&gt;&lt;li&gt;Update version in helm&lt;/li&gt;&lt;li&gt;Push new version to GitHub repo&lt;/li&gt;&lt;/ul&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="9Z9TL7PvHt9BOacIorQI-8">
+        <mxCell id="9Z9TL7PvHt9BOacIorQI-9" value="CI job:&lt;br&gt;&lt;ul&gt;&lt;li&gt;Checkout develop branch&lt;/li&gt;&lt;li&gt;Perform &quot;make test&quot;&lt;/li&gt;&lt;li&gt;Build application&lt;/li&gt;&lt;li&gt;Build and Push image to ghcr.io&lt;/li&gt;&lt;/ul&gt;&lt;br&gt;CD job:&lt;br&gt;&lt;ul&gt;&lt;li&gt;Update version in helm&lt;/li&gt;&lt;li&gt;Push new version to GitHub repo&lt;/li&gt;&lt;li&gt;Creates new release&lt;/li&gt;&lt;/ul&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="9Z9TL7PvHt9BOacIorQI-8">
           <mxGeometry y="30" width="230" height="180" as="geometry" />
         </mxCell>
         <mxCell id="9Z9TL7PvHt9BOacIorQI-18" value="ArgoCD" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
