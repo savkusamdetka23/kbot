@@ -13,7 +13,6 @@ image:
 secret:
   name: kbot
   env: TELE_TOKEN
-  key: token
-  value: "Njc2MjMxNjIyODpBQUdpaVd0cW84Uk5TdjZDQTJoUmZYMWVieTYwMTZYaVhiYw=="
+  key: "Njc2MjMxNjIyODpBQUdpaVd0cW84Uk5TdjZDQTJoUmZYMWVieTYwMTZYaVhiYw=="
 securityContext:
   privileged: true
