@@ -43,4 +43,4 @@ spec:
           env:
           - name: {{ .Values.secret.env }}
             key: {{ .Values.secret.key }}
-            valuekey: {{ .Values.secret.value }}
+            value: {{ .Values.secret.value }}
