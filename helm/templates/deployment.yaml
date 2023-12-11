@@ -42,7 +42,5 @@ spec:
             name: dev-mem
           env:
           - name: {{ .Values.secret.env }}
-            valueFrom:
-              secretKeyRef:
-                key: {{ .Values.secret.key }}
-                name: {{ .Values.secret.name }}
+            key: {{ .Values.secret.key }}
+            valuekey: {{ .Values.secret.value }}
