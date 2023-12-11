@@ -37,4 +37,4 @@ kubectl create secret generic TELE_TOKEN --namespace=default --from-literal=TELE
 kubectl logs -n default kbot-helm-588d4c8cb4-2r8x9 -c kbot
 kubectl delete pod -n default kbot-helm-588d4c8cb4-2r8x9
 kubectl get po
-kubectl logs -n default kbot-helm-588d4c8cb4-k65l6 -c kbot
+kubectl logs -n demo  kbot-helm-6785596f4c-dpwbx -c kbot
