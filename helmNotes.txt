@@ -8,7 +8,6 @@ kubectl logs -n demo my-argocd-application-controller-0
 kubectl logs -n default my-argocd-application-controller-0
 kubectl logs -n default my-argocd-application-controller-0 | grep -i error
 kubectl logs -n default my-argocd-application-controller-0 | grep -i -E 'error|warning|failed|exception'
-kubectl logs -n default my-argocd-application-controller-0 | grep -i -E 'error|warning|failed|exception' 
 kubectl logs -n default my-argocd-server-75b5b854f8-rb242 
  
 kubectl create secret generic new- --namespace=default --from-literal=license=MTIzNDU=
@@ -36,9 +35,8 @@ kubectl create secret generic TELE_TOKEN  --namespace=demo --from-literal=TELE_T
 
 kubectl create secret generic TELE_TOKEN --dry-run=client -n demo --from-literal=token="6762316228:" -o yaml > updated-secret.yaml
 
-kubectl logs -n default kbot-helm-588d4c8cb4-2r8x9 -c kbot
 kubectl delete pod -n default kbot-helm-588d4c8cb4-2r8x9
 kubectl get po
-kubectl logs -n demo  kbot-helm-6785596f4c-dpwbx -c kbot
+kubectl logs -n demo -c kbot kbot-helm-6785596f4c-dpwbx
 kubectl describe -n demo pod kbot-helm-6fb8cb5667
 
