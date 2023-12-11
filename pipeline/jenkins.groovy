@@ -6,7 +6,7 @@ pipeline {
         }
     parameters {
 
-        choice(name: 'OS', defaultValue: 'linux', choices: ['linux', 'darwin', 'macos', 'arm' 'windows', 'all'], description: 'Choose OS')
+        choice(name: 'OS', defaultValue: 'linux', choices: ['linux', 'darwin', 'macos', 'arm', 'windows', 'all'], description: 'Choose OS')
         choice(name: 'ARCH', defaultValue: 'arm64',  choices: ['arm64', 'amd64', 'all'], description: 'Choose architecture')
         choice(name: 'ContainerRegistry', defaultValue: 'ghcr.io/savkusamdetka23',  choices: ['ghcr.io', 'gcr.io', 'dockerhub', 'acr'], description: 'Choose Container Registry')
 
