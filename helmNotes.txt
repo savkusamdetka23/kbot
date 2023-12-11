@@ -14,7 +14,14 @@ kubectl logs -n default my-argocd-server-75b5b854f8-rb242
 kubectl create secret generic new- --namespace=default --from-literal=license=MTIzNDU=
 kubectl create secret generic kbot --namespace=default --from-literal=token="6762316228:"
 kubectl scale deployments --all --replicas=0 -n default
+ps aux | grep 'kubectl port-forward service/my-argocd-server' | grep -v grep | awk '{print $2}'
+pkill -P <PID>
+
 kubectl get pods -n default
+kubectl scale deployments --all --replicas=1 -n default
+kubectl get pods -n default
+kubectl port-forward service/my-argocd-server -n default 8080:443&
+
 kubectl delete pods --all --grace-period=0 --force -n default
 .Values.secret.name
 kubectl get secret kbot -n default -o jsonpath='{.data.secret\.value}' | base64 --decode
