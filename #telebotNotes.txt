@@ -20,9 +20,9 @@ go build -ldflags "-X="github.com/savkusamdetka23/kbot/cmd.appVersion=1.0.1
 
 # @BotFather - official bot manager
 
-read -s TELETOKEN
-echo $TELETOKEN
-export TELETOKEN
+read -s teletoken
+echo $teletoken
+export teletoken
 ./kbot start
 
 go get -u google.golang.org/api/translate/v2

@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	TeleToken    = os.Getenv("TELETOKEN")
+	teletoken    = os.Getenv("teletoken")
 	EnglishTag   = language.English
 	UkrainianTag = language.Ukrainian
 )
@@ -36,12 +36,12 @@ to quickly create a Cobra application.`,
 
 		kbot, err := telebot.NewBot(telebot.Settings{
 			URL:    "",
-			Token:  TeleToken,
+			Token:  teletoken,
 			Poller: &telebot.LongPoller{Timeout: 10 * time.Second},
 		})
 
 		if err != nil {
-			log.Fatalf("Please check TELETOKEN env variable. %s", err)
+			log.Fatalf("Please check teletoken env variable. %s", err)
 			return
 		}
 
