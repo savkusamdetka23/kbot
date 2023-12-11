@@ -31,7 +31,7 @@ helm install release-name chart-directory --set secrets.TELE_TOKEN=your-tele-tok
 
 kubectl  config set-context --current --namespace=default
 kubectl delete secret kbot 
-kubectl create secret generic kbot --namespace=demo --from-literal=token="6762316228:"
+kubectl create secret generic kbot-secret --namespace=demo --from-literal=TELE_TOKEN="6762316228:"
 kubectl create secret generic TELE_TOKEN  --namespace=demo --from-literal=TELE_TOKEN="6762316228:"
 
 kubectl create secret generic TELE_TOKEN --dry-run=client -n demo --from-literal=token="6762316228:" -o yaml > updated-secret.yaml
