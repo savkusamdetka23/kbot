@@ -47,5 +47,5 @@ spec:
           - name: {{ .Values.secret.env }}
             valueFrom:
               secretKeyRef:
-                key: {{ .Values.secret.key }}
-                name: {{ .Values.secret.env }}
+                key: {{ .Values.secret.value }}
+                name: {{ .Values.secret.name }}
