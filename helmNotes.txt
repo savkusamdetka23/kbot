@@ -40,4 +40,5 @@ kubectl logs -n default kbot-helm-588d4c8cb4-2r8x9 -c kbot
 kubectl delete pod -n default kbot-helm-588d4c8cb4-2r8x9
 kubectl get po
 kubectl logs -n demo  kbot-helm-6785596f4c-dpwbx -c kbot
-kubectl describe pod kbot-helm-6785596f4c-dpwbx  -n demo 
+kubectl describe -n demo pod kbot-helm-6fb8cb5667
+
