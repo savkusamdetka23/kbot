@@ -17,6 +17,9 @@ spec:
       {{- end }}
       labels:
         {{- include "helm.labels" . | nindent 8 }}
+	      {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       dnsConfig:
         nameservers:
@@ -42,5 +45,7 @@ spec:
             name: dev-mem
           env:
           - name: {{ .Values.secret.env }}
-            key: {{ .Values.secret.key }}
-            value: {{ .Values.secret.value }}
+            valueFrom:
+              secretKeyRef:
+                key: {{ .Values.secret.key }}
+                name: {{ .Values.secret.name }}
