@@ -20,8 +20,8 @@ kubectl delete pods --all --grace-period=0 --force -n default
 kubectl get secret kbot -n default -o jsonpath='{.data.secret\.value}' | base64 --decode
 
 kubectl rollout restart deployment argocd-server -n default
-helm install release-name chart-directory --set secrets.teletoken=your-tele-token-value
+helm install release-name chart-directory --set secrets.TELE_TOKEN=your-tele-token-value
 
 kubectl  config set-context --current --namespace=default
 kubectl delete secret kbot 
-kubectl create secret generic teletoken --namespace=default --from-literal=teletoken="6762316228:"
+kubectl create secret generic TELE_TOKEN --namespace=default --from-literal=TELE_TOKEN="6762316228:"

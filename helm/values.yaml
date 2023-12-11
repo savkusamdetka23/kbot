@@ -11,8 +11,8 @@ image:
   os: "linux"
   arch: "amd64"
 secret:
-  name: "teletoken"
-  env: "teletoken"
+  name: "kbot"
+  env: "TELE_TOKEN"
   key: "token"
   value: "Njc2MjMxNjIyODpBQUdpaVd0cW84Uk5TdjZDQTJoUmZYMWVieTYwMTZYaVhiYw=="
 securityContext:
