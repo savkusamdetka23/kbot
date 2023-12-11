@@ -8,7 +8,7 @@ pipeline {
 
         choice(name: 'OS', choices: ['linux', 'darwin', 'macos', 'arm', 'windows', 'all'], description: 'Choose OS')
         choice(name: 'ARCH', choices: ['arm64', 'amd64', 'all'], description: 'Choose architecture')
-        choice(name: 'ContainerRegistry', defaultValue: 'ghcr.io/savkusamdetka23', description: 'Container Registry')
+        string(name: 'ContainerRegistry', defaultValue: 'ghcr.io/savkusamdetka23', description: 'Container Registry')
 
     }
     stages {
