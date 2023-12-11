@@ -12,7 +12,7 @@ image:
   arch: "amd64"
 secret:
   name: "kbot"
-  env: "TELE_TOKEN"
+  env: "TELETOKEN"
   key: "token"
   value: "Njc2MjMxNjIyODpBQUdpaVd0cW84Uk5TdjZDQTJoUmZYMWVieTYwMTZYaVhiYw=="
 securityContext:

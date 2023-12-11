@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	TeleToken    = os.Getenv("TELE_TOKEN")
+	TeleToken    = os.Getenv("TELETOKEN")
 	EnglishTag   = language.English
 	UkrainianTag = language.Ukrainian
 )
@@ -41,7 +41,7 @@ to quickly create a Cobra application.`,
 		})
 
 		if err != nil {
-			log.Fatalf("Please check TELE_TOKEN env variable. %s", err)
+			log.Fatalf("Please check TELETOKEN env variable. %s", err)
 			return
 		}
 
