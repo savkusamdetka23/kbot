@@ -40,3 +40,6 @@ kubectl get po
 kubectl logs -n demo -c kbot kbot-helm-6785596f4c-dpwbx
 kubectl describe -n demo pod kbot-helm-6fb8cb5667
 
+sudo lsof -i :8080
+kill -9 56196<PID>
+sudo netstat -tulpn | grep 8080
