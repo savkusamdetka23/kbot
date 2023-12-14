@@ -1,0 +1,28 @@
+terraform init
+ terraform -version
+curl -fsSL https://raw.githubusercontent.com/infracost/infracost/master/scripts/install.sh | sh
+ terraform fmt
+ terraform validate
+ terraform plan
+export TF_VAR_GOOGLE_PROJECT=translatebot-405321
+terraform plan -out demo
+
+gcloud auth list
+gcloud config list project
+
+gcloud config set account maxeem23@gmail.com
+gcloud auth login
+gcloud config set project translatebot-405321
+gcloud auth application-default login
+
+terraform init -reconfigure
+
+terraform init
+ terraform fmt
+ terraform validate
+ terraform plan
+terraform apply
+terraform state list
+terraform show
+
+terraform destroy
