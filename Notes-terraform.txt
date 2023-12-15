@@ -39,6 +39,6 @@ infracost configure get api_key
 infracost configure set api_key ico-eaR6zxiPY1tNovEnrJmv3y8DkwRpMjeB
 infracost auth login 
 infracost --version
-infracost breakdown --path . --format json --out-file infracost-base.json
-infracost diff --path . --compare-to infracost-base.json
+infracost breakdown --path . --format json --out-file infracost-base.json --terraform-var-file vars.tfvars
+infracost diff --path . --compare-to infracost-base.json --terraform-var-file vars.tfvars 
 infracost upload --path infracost-base.json
