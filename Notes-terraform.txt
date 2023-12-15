@@ -1,6 +1,5 @@
 terraform init
 terraform -version
-curl -fsSL https://raw.githubusercontent.com/infracost/infracost/master/scripts/install.sh | sh
 terraform fmt
 terraform validate
 terraform plan
@@ -32,3 +31,14 @@ terraform destroy
 
 terraform console
 google_container_cluster.demo.node_pool[0].managed_instance_groups_urls[0]
+
+#infracost
+curl -fsSL https://raw.githubusercontent.com/infracost/infracost/master/scripts/install.sh | sh
+
+infracost configure get api_key
+infracost configure set api_key ico-eaR6zxiPY1tNovEnrJmv3y8DkwRpMjeB
+infracost auth login 
+infracost --version
+infracost breakdown --path . --format json --out-file infracost-base.json
+infracost diff --path . --compare-to infracost-base.json
+infracost upload --path infracost-base.json

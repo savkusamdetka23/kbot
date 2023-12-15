@@ -1,13 +1,16 @@
+module "gke_cluster" {
+  source         = "github.com/savkusamdetka23/tf-google-gke-cluster"
+  GOOGLE_REGION  = var.GOOGLE_REGION
+  GOOGLE_PROJECT = var.GOOGLE_PROJECT
+  GKE_NUM_NODES  = var.GKE_NUM_NODES
+}
+
 resource "google_container_cluster" "demo" {
   name     = "demo-cluster"
-  location = var.GOOGLE_REGION
+  location = "us-central1-c"
 
   remove_default_node_pool = true
   initial_node_count       = 1
-
-  workload_identity_config {
-    workload_pool = "${var.GOOGLE_PROJECT}.svc.id.goog"
-  }
 
   node_config {
     workload_metadata_config {
