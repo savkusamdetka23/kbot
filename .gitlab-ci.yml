@@ -1,0 +1,75 @@
+variables:
+  BRANCH: 'main'
+  TARGETOS: 'linux'
+  TARGETARCH: 'amd64'
+  GITLAB_REPOSITORY: 'registry.gitlab.com'
+  IMAGE_NAME: 'savkusamdetka232/kbot'
+  CI_IMAGE: 'quay.io/projectquay/golang:1.20'
+  DOCKER_DRIVER: overlay2
+  REGISTRY_GITLAB: 'registry.gitlab.com'
+  PROJECT_GITLAB: 'savkusamdetka232'
+  APP: 'kbot'
+  VERSION: '$(git describe --tags --abbrev=0)-$(git rev-parse --short HEAD)'
+  TAG: '$(APP):$(VERSION)-$(TARGETOS)-$(TARGETARCH)'
+  TAG_GITLAB: '$(REGISTRY_GITLAB)/$(PROJECT_GITLAB)/$(TAG)'
+  DOCKER_IMAGE_TAG: ''
+  DOCKER_IMAGE: ''
+  DOCKER_IMAGE_REV: ''
+
+
+default:
+  image: quay.io/projectquay/golang:1.20
+  tags:
+    - saas-linux-large-amd64
+
+stages:
+  - get
+  - format
+  - lint
+  - build
+  - set-image-version
+  - create-image-and-push
+
+get:
+  stage: get
+  script:
+    - make get
+
+format:
+  stage: format
+  script:
+    - make format
+
+build:
+  stage: build
+  script:
+    - make build
+
+set-image-version:
+  stage: set-image-version
+  script:
+    - git fetch --tags
+    - export DOCKER_IMAGE_REV=$(git rev-parse --short HEAD)
+    - echo $DOCKER_IMAGE_REV
+    - export DOCKER_IMAGE_TAG=$(git describe --tags --abbrev=0 --always)
+    - echo $DOCKER_IMAGE_TAG
+    - export DOCKER_IMAGE=$REGISTRY_GITLAB/$PROJECT_GITLAB/$APP:$DOCKER_IMAGE_TAG-$DOCKER_IMAGE_REV-$TARGETOS-$TARGETARCH
+    - echo $DOCKER_IMAGE
+    - echo "DOCKER_IMAGE=$DOCKER_IMAGE"  >> image.env
+  only:
+    - main
+  artifacts:
+    reports:
+      dotenv: image.env
+
+
+create-image-and-push:
+  stage: create-image-and-push
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16-dind
+  script:
+    - echo "$CI_JOB_TOKEN" | docker login -u $CI_REGISTRY_USER --password-stdin $GITLAB_REPOSITORY
+    - echo "$DOCKER_IMAGE"
+    - docker build . -t "$DOCKER_IMAGE"
+    - docker push "$DOCKER_IMAGE"

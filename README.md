@@ -33,3 +33,13 @@ After initialization you can start typing or forwarding posts and messages in En
 Also you can post or forward messages in Ukrainian to receive tranlation in English.
 
 ![Alt text](img/image-23.png)
+
+
+## Workflow diagram
+
+![image](https://github.com/savkusamdetka23/kbot/assets/10897695/9bb66be6-728f-46d3-a5e8-8b1d8fdc04b3)
+
+![image](https://github.com/savkusamdetka23/kbot/assets/10897695/8183dbce-76a2-4531-a86a-d3860fb193a5)
+
+![image](https://github.com/savkusamdetka23/kbot/assets/10897695/b889ca7a-5467-46d0-8a59-aa934911ac89)
+

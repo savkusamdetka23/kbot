@@ -1,0 +1,25 @@
+k create namespace jenkins
+kubectl  config set-context --current --namespace=jenkins
+kubectl config get-contexts
+helm repo add jenkins https://charts.jenkins.io
+helm install jenkins jenkins/jenkins
+k get po
+k get po -w
+
+kubectl exec --namespace jenkins -it svc/jenkins -c jenkins -- /bin/cat /run/secrets/additional/chart-admin-password && echo
+WzyxqRoiCf0W6KrFsEOS4e
+kubectl --namespace jenkins port-forward svc/jenkins 8080:8080&
+
+ip a
+ssh 172.16.5.4
+cat /etc/ssh/sshd_config
+ssh 172.16.5.4 -p 2222
+ssh-keygen 
+cat ~/.ssh/id_rsa.pub 
+cat >>~/.ssh/authorized_keys
+cat ~/.ssh/authorized_keys
+cat ~/.ssh/id_rsa
+
+sudo lsof -i :8080
+kill -9 40065<PID>
+sudo netstat -tulpn | grep 8080

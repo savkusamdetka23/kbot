@@ -1,0 +1,44 @@
+terraform init
+terraform -version
+terraform fmt
+terraform validate
+terraform plan
+export TF_VAR_GOOGLE_PROJECT=translatebot-405321
+terraform plan -out demo
+
+gcloud auth list
+gcloud config list project
+
+gcloud config set account maxeem23@gmail.com
+gcloud auth login
+gcloud config set project translatebot-405321
+gcloud auth application-default login
+
+terraform init -reconfigure
+
+terraform init
+terraform fmt
+terraform validate
+terraform plan
+translatebot-405321
+terraform apply
+terraform state list
+terraform show
+
+#When migrating or sharing state files, make sure to remove sensitive information. Use 
+terraform state rm
+terraform destroy
+
+terraform console
+google_container_cluster.demo.node_pool[0].managed_instance_groups_urls[0]
+
+#infracost
+curl -fsSL https://raw.githubusercontent.com/infracost/infracost/master/scripts/install.sh | sh
+
+infracost configure get api_key
+infracost configure set api_key ico-eaR6zxiPY1tNovEnrJmv3y8DkwRpMjeB
+infracost auth login 
+infracost --version
+infracost breakdown --path . --format json --out-file infracost-base.json --terraform-var-file vars.tfvars
+infracost diff --path . --compare-to infracost-base.json --terraform-var-file vars.tfvars 
+infracost upload --path infracost-base.json

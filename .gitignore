@@ -1,3 +1,4 @@
 .tgz
 kbot
 .exe
+.terraform/providers/registry.terraform.io/hashicorp/google/4.52.0/linux_amd64/terraform-provider-google_v4.52.0_x5
