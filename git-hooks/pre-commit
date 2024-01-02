@@ -1,0 +1,92 @@
+#!/bin/bash
+# cp  git-hooks/pre-commit .git/hooks/ 
+# chmod +x .git/hooks/pre-commit
+# To enable gitleaks check
+#git config hooks.gitleaks true
+# To disable gitleaks check
+#git config hooks.gitleaks false
+
+# Function to check if gitleaks is installed
+check_gitleaks() {
+  if ! command -v gitleaks &> /dev/null; then
+    determine_os
+    case $OS in
+      msys|cygwin|mingw*)
+        INSTALL_DIR="$(git rev-parse --git-dir)/hooks"
+        GITLEAKS_EXE="$INSTALL_DIR/gitleaks.exe"
+        if [ -x "$GITLEAKS_EXE" ]; then
+          echo "gitleaks found in: $INSTALL_DIR"
+        else
+          echo "gitleaks not found. Installing..."
+          install_gitleaks
+        fi
+        ;;
+      *)
+        echo "gitleaks not found or unsupported OS: $OS"
+        install_gitleaks
+        ;;
+    esac
+  else
+    echo "gitleaks is already installed."
+  fi
+}
+
+# Function to install gitleaks
+install_gitleaks() {
+  determine_os
+  case $OS in
+    linux)
+      download_and_install "https://github.com/gitleaks/gitleaks/releases/download/v8.18.1/gitleaks_8.18.1_linux_x64.tar.gz"
+      ;;
+    darwin)
+      download_and_install "https://github.com/gitleaks/gitleaks/releases/download/v8.18.1/gitleaks_8.18.1_darwin_x64.tar.gz"
+      ;;
+    msys|cygwin|mingw*)
+      download_and_install "https://github.com/gitleaks/gitleaks/releases/download/v8.18.1/gitleaks_8.18.1_windows_x64.zip"
+      ;;
+    *)
+      echo "Unsupported OS: $OS"
+      exit 1
+      ;;
+  esac
+}
+
+# Function to download and install gitleaks
+download_and_install() {
+  DOWNLOAD_LINK=$1
+  INSTALL_DIR="$(git rev-parse --git-dir)/hooks"
+  
+  # Create the installation directory if it doesn't exist
+  mkdir -p "$INSTALL_DIR"
+
+  # Download and extract gitleaks
+  curl -sSfL $DOWNLOAD_LINK | tar xvz -C "$INSTALL_DIR"
+
+  # Make gitleaks executable
+  chmod +x "$INSTALL_DIR/gitleaks"
+
+  echo "Gitleaks installed to: ${INSTALL_DIR}"
+}
+
+# Function to determine OS and architecture
+determine_os() {
+  if command -v tasklist &> /dev/null; then
+    OS="windows"
+  else
+    OS=$(uname | tr '[:upper:]' '[:lower:]')
+  fi
+}
+
+# Check and install gitleaks
+check_gitleaks
+
+# Check if gitleaks is enabled
+if [ "$(git config --get hooks.gitleaks)" = "true" ]; then
+  # Run gitleaks from .git/hooks directory on Windows
+  if [ "$OS" == "msys" ] || [ "$OS" == "cygwin" ] || [ "$OS" == "mingw" ]; then
+    cmd //c ".git/hooks/gitleaks detect -v --no-git"
+  else
+    # Run gitleaks on other operating systems
+    ./.git/hooks/gitleaks detect -v --no-git
+  fi
+fi

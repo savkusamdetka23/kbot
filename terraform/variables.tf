@@ -20,9 +20,3 @@ variable "GKE_NUM_NODES" {
   default     = 2
   description = "node pool count"
 }
-
-variable "TELE_TOKEN " {
-  type        = string
-  default     = 2
-  description = "6723316123dd8:AAGiiWt231Sasdv6CA2hRAX1eby621316XiXbc"
-}
