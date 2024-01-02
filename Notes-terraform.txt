@@ -137,7 +137,7 @@ kubectl describe po -n demo
 kubectl get pods -A
 kubectl apply -f https://raw.githubusercontent.com/fluxcd/helm-operator/master/deploy/crds.yaml
 kubectl get crd | grep helmreleases.helm.toolkit.fluxcd.io
-kubectl create secret generic kbot --namespace=demo --from-literal=token=""
+kubectl create secret generic kbot --namespace=demo --from-literal=token="6762316228:"
 
 sudo snap install jq 
 kubectl logs -n flux-system deployment/helm-controller | jq -r 'select(.source != null) | .source'
