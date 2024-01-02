@@ -1,6 +1,7 @@
 #!/bin/bash
 # cp  git-hooks/pre-commit .git/hooks/ 
 # chmod +x .git/hooks/pre-commit
+# icacls .git\hooks\pre-commit /grant Everyone:RX
 # To enable gitleaks check
 #git config hooks.gitleaks true
 # To disable gitleaks check
