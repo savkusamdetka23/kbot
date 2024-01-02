@@ -1,21 +1,22 @@
-#!/bin/bash
+#!/bin/sh
 # cp  git-hooks/pre-commit .git/hooks/ 
 # chmod +x .git/hooks/pre-commit
+# git config core.hooksPath .git/hooks
 # icacls .git\hooks\pre-commit /grant Everyone:RX
 # To enable gitleaks check
-#git config hooks.gitleaks true
+# git config hooks.gitleaks true
 # To disable gitleaks check
-#git config hooks.gitleaks false
+# git config hooks.gitleaks false
 
 # Function to check if gitleaks is installed
 check_gitleaks() {
   if ! command -v gitleaks &> /dev/null; then
     determine_os
     case $OS in
-      msys|cygwin|mingw*)
+      windows)
         INSTALL_DIR="$(git rev-parse --git-dir)/hooks"
-        GITLEAKS_EXE="$INSTALL_DIR/gitleaks.exe"
-        if [ -x "$GITLEAKS_EXE" ]; then
+        GITLEAKS_EXE="$INSTALL_DIR/gitleaks"
+        if [ -e "$GITLEAKS_EXE" ]; then
           echo "gitleaks found in: $INSTALL_DIR"
         else
           echo "gitleaks not found. Installing..."
@@ -42,8 +43,9 @@ install_gitleaks() {
     darwin)
       download_and_install "https://github.com/gitleaks/gitleaks/releases/download/v8.18.1/gitleaks_8.18.1_darwin_x64.tar.gz"
       ;;
-    msys|cygwin|mingw*)
+    windows)
       download_and_install "https://github.com/gitleaks/gitleaks/releases/download/v8.18.1/gitleaks_8.18.1_windows_x64.zip"
+      powershell.exe -ExecutionPolicy Bypass -File git-hooks/install-gitleaks.ps1 -InstallDir $INSTALL_DIR -DownloadLink $DOWNLOAD_LINK
       ;;
     *)
       echo "Unsupported OS: $OS"
@@ -60,14 +62,21 @@ download_and_install() {
   # Create the installation directory if it doesn't exist
   mkdir -p "$INSTALL_DIR"
 
-  # Download and extract gitleaks
-  curl -sSfL $DOWNLOAD_LINK | tar xvz -C "$INSTALL_DIR"
+  if command -v powershell.exe &> /dev/null; then
+    # Windows OS detected, use PowerShell script for installation
+    powershell -ExecutionPolicy Bypass -File git-hooks/install-gitleaks.ps1
+  else
+    # Download and extract gitleaks for Linux or macOS
+    curl -sSfL $DOWNLOAD_LINK | tar xvz -C "$INSTALL_DIR"
 
-  # Make gitleaks executable
-  chmod +x "$INSTALL_DIR/gitleaks"
+    # Make gitleaks executable
+    chmod +x "$INSTALL_DIR/gitleaks"
 
-  echo "Gitleaks installed to: ${INSTALL_DIR}"
+    echo "Gitleaks installed to: ${INSTALL_DIR}"
+  fi
 }
+
+
 
 # Function to determine OS and architecture
 determine_os() {
@@ -83,11 +92,6 @@ check_gitleaks
 
 # Check if gitleaks is enabled
 if [ "$(git config --get hooks.gitleaks)" = "true" ]; then
-  # Run gitleaks from .git/hooks directory on Windows
-  if [ "$OS" == "msys" ] || [ "$OS" == "cygwin" ] || [ "$OS" == "mingw" ]; then
-    cmd //c ".git/hooks/gitleaks detect -v --no-git"
-  else
-    # Run gitleaks on other operating systems
-    ./.git/hooks/gitleaks detect -v --no-git
-  fi
+  # Run gitleaks
+  "$INSTALL_DIR/gitleaks" detect -v --no-git
 fi

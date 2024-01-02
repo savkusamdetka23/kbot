@@ -64,7 +64,6 @@ export TF_VAR_GITHUB_TOKEN=ghp_
 
 
 export TF_VAR_GITHUB_OWNER=savkusamdekta
-export TF_VAR_GITHUB_TOKEN
 
 export KUBECONFIG=./modules/tf-kind-cluster/kind-config 
  export KUBECONFIG=./modules/tf-google-gke-cluster/kubeconfig
@@ -138,7 +137,7 @@ kubectl describe po -n demo
 kubectl get pods -A
 kubectl apply -f https://raw.githubusercontent.com/fluxcd/helm-operator/master/deploy/crds.yaml
 kubectl get crd | grep helmreleases.helm.toolkit.fluxcd.io
-kubectl create secret generic kbot --namespace=demo --from-literal=token="6762316228:AAGiiWtqo8RNSv6CA2hRfX1eby6016XiXbc"
+kubectl create secret generic kbot --namespace=demo --from-literal=token=""
 
 sudo snap install jq 
 kubectl logs -n flux-system deployment/helm-controller | jq -r 'select(.source != null) | .source'

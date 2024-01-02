@@ -43,3 +43,24 @@ Also you can post or forward messages in Ukrainian to receive tranlation in Engl
 
 ![image](https://github.com/savkusamdetka23/kbot/assets/10897695/b889ca7a-5467-46d0-8a59-aa934911ac89)
 
+
+# Using gitleaks pre-commit hook
+To install pre-commit git-hook, you can just execute next commands
+```
+ cp  git-hooks/pre-commit .git/hooks/ 
+ git config core.hooksPath .git/hooks
+ #Linux
+ #chmod +x .git/hooks/pre-commit
+ #Windows
+ #icacls .git\hooks\pre-commit /grant Everyone:RX
+```
+
+To enable gitleaks check
+```
+ git config hooks.gitleaks true
+```
+
+To disable gitleaks check
+```
+ git config hooks.gitleaks false
+```
