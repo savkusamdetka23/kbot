@@ -9,6 +9,5 @@ secret:
   name: kbot
   env: TELE_TOKEN
   key: token
-  value: "6762316228:AAGiiWtqo8RNSv6CA2hRfX1eby6016XiXbc"
 securityContext:
   privileged: true
