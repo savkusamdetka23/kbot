@@ -1,17 +1,23 @@
 package cmd
 
 import (
+	"context"
 	"fmt"
-	"log"
+	"github.com/bregydoc/gtranslate"
+	"github.com/fre5h/transliteration-go"
+	"github.com/spf13/cobra"
+	"golang.org/x/text/language"
 	"os"
 	"strings"
 	"time"
 	"unicode"
 
-	"github.com/bregydoc/gtranslate"
-	"github.com/fre5h/transliteration-go"
-	"github.com/spf13/cobra"
-	"golang.org/x/text/language"
+	"github.com/hirosassa/zerodriver"
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetricgrpc"
+	sdkmetric "go.opentelemetry.io/otel/sdk/metric"
+	"go.opentelemetry.io/otel/sdk/resource"
+	semconv "go.opentelemetry.io/otel/semconv/v1.12.0"
 	telebot "gopkg.in/telebot.v3"
 )
 
@@ -19,7 +25,49 @@ var (
 	TELE_TOKEN   = os.Getenv("TELE_TOKEN")
 	EnglishTag   = language.English
 	UkrainianTag = language.Ukrainian
+	MetricsHost  = os.Getenv("METRICS_HOST")
 )
+
+func initMetrics(ctx context.Context) {
+
+	// Create a new OTLP Metric gRPC exporter with the specified endpoint and options
+	exporter, _ := otlpmetricgrpc.New(
+		ctx,
+		otlpmetricgrpc.WithEndpoint(MetricsHost),
+		otlpmetricgrpc.WithInsecure(),
+	)
+
+	// Define the resource with attributes that are common to all metrics.
+	// labels/tags/resources that are common to all metrics.
+	resource := resource.NewWithAttributes(
+		semconv.SchemaURL,
+		semconv.ServiceNameKey.String(fmt.Sprintf("kbot_%s", appVersion)),
+	)
+
+	// Create a new MeterProvider with the specified resource and reader
+	mp := sdkmetric.NewMeterProvider(
+		sdkmetric.WithResource(resource),
+		sdkmetric.WithReader(
+			// collects and exports metric data every 10 seconds.
+			sdkmetric.NewPeriodicReader(exporter, sdkmetric.WithInterval(10*time.Second)),
+		),
+	)
+
+	// Set the global MeterProvider to the newly created MeterProvider
+	otel.SetMeterProvider(mp)
+
+}
+
+func pmetrics(ctx context.Context, payload string) {
+	// Get the global MeterProvider and create a new Meter with the name "kbot_light_signal_counter"
+	meter := otel.GetMeterProvider().Meter("kbot_light_signal_counter")
+
+	// Get or create an Int64Counter instrument with the name "kbot_light_signal_<payload>"
+	counter, _ := meter.Int64Counter(fmt.Sprintf("kbot_light_signal_%s", payload))
+
+	// Add a value of 1 to the Int64Counter
+	counter.Add(ctx, 1)
+}
 
 var kbotCmd = &cobra.Command{
 	Use:     "kbot",
@@ -33,6 +81,7 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Printf("kbot %s started", appVersion)
+		logger := zerodriver.NewProductionLogger()
 
 		kbot, err := telebot.NewBot(telebot.Settings{
 			URL:    "",
@@ -41,13 +90,18 @@ to quickly create a Cobra application.`,
 		})
 
 		if err != nil {
-			log.Fatalf("Please check TELE_TOKEN env variable. %s", err)
+			logger.Fatal().Str("Error", err.Error()).Msg("Please check TELE_TOKEN")
 			return
+		} else {
+			logger.Info().Str("Version", appVersion).Msg("kbot started")
 		}
 
 		kbot.Handle(telebot.OnText, func(m telebot.Context) error {
 			// Log the received text
-			log.Printf("Received Text: %s", m.Text())
+			logger.Info().Str("Payload", m.Text()).Msg(m.Message().Payload)
+
+			payload := m.Message().Payload
+			pmetrics(context.Background(), payload)
 
 			// Ensure we have non-empty text
 			if m.Text() != "" {
@@ -58,7 +112,7 @@ to quickly create a Cobra application.`,
 					welcomeMessage := "СЛАВА УКРАЇНІ! I'm @savkusamdetka23_bot. Welcome! 😊 You can text me anything or forward other Telegram messages and posts, and I will translate your message to Ukrainian and provide transcription or translate it from Ukrainian to English."
 					err := m.Send(welcomeMessage)
 					if err != nil {
-						log.Printf("Error sending welcome message: %v", err)
+						logger.Printf("Error sending welcome message: %v", err)
 						return err
 					}
 
@@ -81,13 +135,13 @@ to quickly create a Cobra application.`,
 					}
 
 					if err != nil {
-						log.Printf("Error translating text: %v", err)
+						logger.Printf("Error translating text: %v", err)
 						return err
 					}
 
 					err = m.Send(fmt.Sprintf("Translation: %s", translatedText))
 					if err != nil {
-						log.Printf("Error sending translation: %v", err)
+						logger.Printf("Error sending translation: %v", err)
 					}
 				}
 			}
@@ -100,6 +154,8 @@ to quickly create a Cobra application.`,
 }
 
 func init() {
+	ctx := context.Background()
+	initMetrics(ctx)
 	rootCmd.AddCommand(kbotCmd)
 	// Add other initialization logic here...
 }
