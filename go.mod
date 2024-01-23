@@ -9,9 +9,11 @@ require (
 	github.com/spf13/cobra v1.8.0
 	go.opentelemetry.io/otel v1.22.0
 	go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetricgrpc v0.45.0
+	go.opentelemetry.io/otel/metric v1.22.0
 	go.opentelemetry.io/otel/sdk v1.22.0
 	go.opentelemetry.io/otel/sdk/metric v1.22.0
 	golang.org/x/text v0.14.0
+	google.golang.org/protobuf v1.32.0
 	gopkg.in/telebot.v3 v3.2.1
 )
 
@@ -27,7 +29,6 @@ require (
 	github.com/robertkrimen/otto v0.3.0 // indirect
 	github.com/rs/zerolog v1.31.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	go.opentelemetry.io/otel/metric v1.22.0 // indirect
 	go.opentelemetry.io/otel/trace v1.22.0 // indirect
 	go.opentelemetry.io/proto/otlp v1.1.0 // indirect
 	golang.org/x/net v0.20.0 // indirect
@@ -35,6 +36,5 @@ require (
 	google.golang.org/genproto/googleapis/api v0.0.0-20240123012728-ef4313101c80 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240123012728-ef4313101c80 // indirect
 	google.golang.org/grpc v1.60.1 // indirect
-	google.golang.org/protobuf v1.32.0 // indirect
 	gopkg.in/sourcemap.v1 v1.0.5 // indirect
 )

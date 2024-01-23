@@ -3,14 +3,15 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"github.com/bregydoc/gtranslate"
-	"github.com/fre5h/transliteration-go"
-	"github.com/spf13/cobra"
-	"golang.org/x/text/language"
 	"os"
 	"strings"
 	"time"
 	"unicode"
+
+	"github.com/bregydoc/gtranslate"
+	"github.com/fre5h/transliteration-go"
+	"github.com/spf13/cobra"
+	"golang.org/x/text/language"
 
 	"github.com/hirosassa/zerodriver"
 	"go.opentelemetry.io/otel"
