@@ -3,7 +3,7 @@ services:
 
   # Kbot
   kbot:
-    image: umanetsvitaliy/kbot:v1.5.0-8d0aaa8-linux-amd64
+    image: savkusamdetka23/kbot:v1.1.4-f242f98-linux-amd64
     environment:
       - METRICS_HOST=collector:4317
       - TELE_TOKEN=${TELE_TOKEN}
