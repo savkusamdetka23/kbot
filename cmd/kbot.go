@@ -28,6 +28,7 @@ var (
 	MetricsHost  = os.Getenv("METRICS_HOST")
 )
 
+// Initialize OpenTelemetry
 func initMetrics(ctx context.Context) {
 
 	// Create a new OTLP Metric gRPC exporter with the specified endpoint and options
@@ -55,7 +56,6 @@ func initMetrics(ctx context.Context) {
 
 	// Set the global MeterProvider to the newly created MeterProvider
 	otel.SetMeterProvider(mp)
-
 }
 
 func pmetrics(ctx context.Context, payload string) {
