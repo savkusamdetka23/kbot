@@ -24,10 +24,16 @@ terraform plan -out demo
 
 gcloud auth list
 gcloud config list project
+./google-cloud-sdk/bin/gcloud  config set account maxeem23@gmail.com
+./google-cloud-sdk/bin/gcloud  config set project translatebot-405321
+./google-cloud-sdk/bin/gcloud   auth application-default login
+./google-cloud-sdk/bin/gcloud    auth login --no-launch-browser
+./google-cloud-sdk/bin/gcloud  auth list
+./google-cloud-sdk/bin/gcloud  auth application-default print-access-token
 
 gcloud config set account maxeem23@gmail.com
-gcloud auth login
 gcloud config set project translatebot-405321
+gcloud auth login
 gcloud auth application-default login
 
 terraform init -reconfigure
@@ -58,15 +64,15 @@ infracost diff --path . --compare-to infracost-base.json --terraform-var-file va
 infracost upload --path infracost-base.json
 
 export TF_VAR_GOOGLE_PROJECT=translatebot-405321
-
 export TF_VAR_GITHUB_OWNER=savkusamdetka23
 export TF_VAR_GITHUB_TOKEN=ghp_
 
 
 export TF_VAR_GITHUB_OWNER=savkusamdekta
 
+export KUBECONFIG=./kind-config 
 export KUBECONFIG=./modules/tf-kind-cluster/kind-config 
- export KUBECONFIG=./modules/tf-google-gke-cluster/kubeconfig
+export KUBECONFIG=./modules/tf-google-gke-cluster/kubeconfig
 
 
 
@@ -75,10 +81,6 @@ terraform destroy
  terraform init
  terraform init -upgrade
 
-terraform fmt
-terraform validate
-terraform plan
-terraform apply
 
 # Download Kind binary
 curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.11.1/kind-linux-amd64
@@ -90,8 +92,9 @@ chmod +x ./kind
 sudo mv ./kind /usr/local/bin/
 
 kind --version
+kind export kubeconfig --name kind-cluster
 
-kubectl config use-context kind-kind-kind-cluster
+kubectl config use-context kind-kind-cluster
 kind export kubeconfig --name kind-kind-cluster
 kind export kubeconfig --name kind-cluster
 
@@ -114,16 +117,18 @@ kubectl get pods
 kind export kubeconfig --name kind-cluster
 kubectl get po -n flux-system  
 
- terraform init --backend-config="bucket=tf-state-23"
- terraform init
+terraform init --backend-config="bucket=tf-state-23"
+terraform init
 terraform init -upgrade
+terraform init -reconfigure
 terraform validate
 terraform plan -lock=false
 terraform apply -lock=false
 terraform plan 
 terraform apply
-
-
+terraform apply -auto-approve
+terraform destroy
+terraform apply -var-file=vars.tfvars
 gsutil mb gs://tf-state-23
 
  
@@ -133,11 +138,40 @@ flux logs -f
 flux get all -A
 
 flux get all -A --status-selector ready=false 
-kubectl describe po -n demo
+kubectl get ns
+kubectl get ns -A
 kubectl get pods -A
+kubectl get po -n demo 
+kubectl describe po -n demo
 kubectl apply -f https://raw.githubusercontent.com/fluxcd/helm-operator/master/deploy/crds.yaml
 kubectl get crd | grep helmreleases.helm.toolkit.fluxcd.io
-kubectl create secret generic kbot --namespace=demo --from-literal=token="6762316228:"
+kubectl create secret generic kbot --namespace=demo --from-literal=token="6762316228"
 
 sudo snap install jq 
 kubectl logs -n flux-system deployment/helm-controller | jq -r 'select(.source != null) | .source'
+
+ gcloud container clusters get-credentials main --zone us-central1-c --project translatebot-405321
+
+
+k get GitRepository -A
+k get HelmRelease -A
+k get helmrelease kbot -n demo -o yaml
+ helm upgrade --install --debug kbot ./helm -n demo
+
+
+
+flux create source git kbot \
+    --url=https://github.com/savkusamdetka23/kbot.git \
+    --branch=main \
+    --namespace=demo \
+    --export
+
+flux create helmrelease kbot \
+    --namespace demo \
+    --source GitRepository/kbot \
+    --chart ./helm \
+    --interval 1m \
+    --export
+
+ gcloud kms keys list --location global --keyring sops-flux
+ k -n demo create secret generic kbot --from-literal=token=$TELE_TOKEN --dry-run=client -o yaml 
